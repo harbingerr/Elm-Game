@@ -159,7 +159,11 @@ swapAndChangeStatus gridInList selectedGrid =
     let
         updateGrid =
             if checkCurrent gridInList then
-                { xy = gridInList.xy, status = CurrentPlusSelected, item = selectedGrid.item, dir = selectedGrid.dir }
+                if selectedGrid.item == Field then
+                    { xy = gridInList.xy, status = Current, item = selectedGrid.item, dir = selectedGrid.dir }
+
+                else
+                    { xy = gridInList.xy, status = CurrentPlusSelected, item = selectedGrid.item, dir = selectedGrid.dir }
 
             else
                 gridInList
@@ -540,13 +544,13 @@ getDestroyedGrids grids currentGrid playField =
             destroyThoseGrids grids currentGrid playField []
 
         cleareAll =
-            List.map (\x -> destroyAndUpdate getAllGridsToDestroy x) grids
+            List.map (\x -> destroyAndUpdate getAllGridsToDestroy currentGrid x) grids
     in
     cleareAll
 
 
-destroyAndUpdate : List Grid -> Grid -> Grid
-destroyAndUpdate gridsToDestory gridInList =
+destroyAndUpdate : List Grid -> Grid -> Grid -> Grid
+destroyAndUpdate gridsToDestory currentGrid gridInList =
     let
         thisGrids =
             List.filter (\x -> checkGrid x gridInList) gridsToDestory
@@ -556,6 +560,9 @@ destroyAndUpdate gridsToDestory gridInList =
                 Just g ->
                     if g.item == SuperWall then
                         g
+
+                    else if g == currentGrid then
+                        { g | item = Field, dir = Nothing, status = Current }
 
                     else
                         { g | item = Field, dir = Nothing }

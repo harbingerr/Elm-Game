@@ -64,7 +64,7 @@ init user =
       , selectedGrid = { xy = ( 0, 0 ), status = NonSelected, item = Field, dir = Nothing }
       , state = False
       , playField = ( 0, 0 )
-      , errorMsg = "-"
+      , errorMsg = "W, S, A, D - move\n R- reset level\n Enter - pick up"
       }
     , Cmd.none
     )
@@ -224,17 +224,19 @@ changeSelected model =
             model.selectedGrid
 
         newGrids =
-            {- Field has activate item and selected is empty
-               Field has activate item selected is not empty
-            -}
-            if model.currentGrid.item == Swap then
+            {- Field has activate item and selected is empty -}
+            if curr.item == Swap then
                 swapItemActivated model.grids curr
+                {- Field has activate item selected is not empty -}
 
-            else if model.currentGrid.item == Duplicator then
+            else if curr.item == Duplicator then
                 duplicateItem model.grids curr sel
                 {- Field is empty, Selected is empty
                    Field is empty, Selected not empty
                 -}
+
+            else if curr.item == Bomb && sel.item == Stick then
+                getDestroyedGrids model.grids curr model.playField
 
             else if curr.item == Field && sel.item /= Field then
                 List.map (\x -> swapSelectedItemWithField x sel) model.grids
@@ -244,14 +246,11 @@ changeSelected model =
                 List.map (\x -> swapAndChangeStatus x sel) model.grids
                 {- Field has item, selected has item, they interact -}
 
-            else if curr.item == Bomb && sel.item == Stick then
-                getDestroyedGrids model.grids curr model.playField
-
             else
                 model.grids
 
         newCurrent =
-            {- Field has bombu selected has stick --empty them -}
+            {- Field has bomb selected has stick --empty them -}
             if (curr.item == Bomb && sel.item == Stick) || curr.item == Swap then
                 { curr | item = Field, dir = Nothing, status = Current }
 
