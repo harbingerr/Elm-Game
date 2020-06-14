@@ -15,7 +15,7 @@ import Html exposing (Html)
 
 globalBottomView : Element msg
 globalBottomView =
-    row [ width fill, Background.color colors.gray, spacing 32, paddingXY 5 5 ]
+    row [ width fill, Background.color colors.gray2, spacing 32, paddingXY 5 5 ]
         [ el [ Font.size 24, Font.bold, centerX ] (text "2020") ]
 
 
@@ -39,18 +39,19 @@ linkLevel label level =
 -- STYLES
 
 
-colors : { blue : Color, black : Color, white : Color, red : Color, lightblue : Color, lighterblue : Color, green : Color, greener : Color, customC : Color, gray : Color }
+colors : { blue : Color, black : Color, softOrange : Color, white : Color, gray : Color, lightblue : Color, lighterblue : Color, green : Color, gray3 : Color, customC : Color, gray2 : Color }
 colors =
     { white = rgb 1 1 1
-    , black = rgb255 225 176 126
-    , red = rgb255 85 91 110
+    , black = rgb 0 0 0
+    , softOrange = rgb255 225 176 126
+    , gray = rgb255 85 91 110
     , blue = rgb255 0 78 137
     , lightblue = rgb255 137 176 174
     , lighterblue = rgb255 229 190 158
     , green = rgb 0 1 0
-    , greener = rgb255 166 156 172
     , customC = rgb255 186 145 73
-    , gray = rgb255 175 180 195
+    , gray2 = rgb255 175 180 195
+    , gray3 = rgb255 166 156 172
     }
 
 
@@ -73,7 +74,7 @@ styles =
         , Font.variant Font.smallCaps
         , Font.size 30
         , Font.center
-        , Background.color colors.black
+        , Background.color colors.softOrange
         , mouseOver [ alpha 0.6 ]
         , width (px 200)
         , height (px 50)
@@ -101,7 +102,7 @@ styles =
         ]
     , button =
         [ Font.color colors.white
-        , Background.color colors.greener
+        , Background.color colors.gray3
         , Border.rounded 4
         , centerX
         , centerY
@@ -116,7 +117,7 @@ styles =
         [ Font.color colors.white
         , Font.variant Font.smallCaps
         , Font.size 30
-        , Background.color colors.black
+        , Background.color colors.softOrange
         , mouseOver [ alpha 0.6 ]
         , width (px 50)
         , height (px 50)
@@ -129,7 +130,7 @@ styles =
         ]
     , badButton =
         [ Font.color colors.white
-        , Background.color colors.red
+        , Background.color colors.gray
         , Border.rounded 4
         , width (px 200)
         , height (px 50)

@@ -94,7 +94,7 @@ showMsg model =
 
 formView : Model -> Element Msg
 formView model =
-    row [ centerY, centerX, spacing 10, padding 15, Border.width 2, Border.rounded 15, Background.color colors.greener ]
+    row [ centerY, centerX, spacing 10, padding 15, Border.width 2, Border.rounded 15, Background.color colors.gray3 ]
         [ column
             [ centerX
             , centerY

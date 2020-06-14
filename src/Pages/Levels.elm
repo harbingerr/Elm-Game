@@ -120,7 +120,7 @@ updateNewModel model pressedLevel =
             , selectedGrid = GameRoute.getSelectedGrid pressedLevel
             , state = False
             , playField = GameRoute.getPlayField pressedLevel
-            , errorMsg = "-"
+            , errorMsg = "W, S, A, D - move; R- reset level; Enter - pick up"
             }
     in
     newModel
@@ -449,7 +449,7 @@ viewCurrentLevel model =
         Element.none
 
     else
-        column [ alignTop, centerX, spacing 20 ] [ el [ centerX, Font.bold ] (text ("LEVEL" ++ String.fromInt model.pressed)), el [ centerX, Font.italic, Font.color G.colors.red ] (text model.errorMsg), generateRow model, viewDebuge model ]
+        column [ alignTop, centerX, spacing 20 ] [ el [ centerX, Font.bold ] (text ("LEVEL" ++ String.fromInt model.pressed)), el [ centerX, Font.italic, Font.color G.colors.black ] (text model.errorMsg), generateRow model, viewDebuge model ]
 
 
 generateRow : Model -> Element Msg
