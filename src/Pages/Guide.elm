@@ -37,7 +37,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
     case message of
         Next newIndex ->
-            if model.pageIndex < 6 then
+            if model.pageIndex < 5 then
                 ( { model | pageIndex = newIndex + 1 }, Cmd.none )
 
             else
@@ -106,102 +106,129 @@ formView model =
                 4 ->
                     fourthPage
 
-                5 ->
-                    fifthPage
-
                 _ ->
-                    sixthPage
+                    fifthPage
             )
         ]
 
 
 firstPage : List (Element Msg)
 firstPage =
-    [ el [ centerX ] (text "Welcome! \n  You can use the <- and -> \narrows to go through\n this tutorial ")
-    , el [ centerX ] (text "Level example:")
+    [ el [ centerX ] (text "Welcome!")
     , Element.image [ width (px 170), height (px 200), centerX ]
         { src = "/tutorialPicture.png"
         , description = "level example"
         }
-    , el [ centerX ] (text "You can move around the map\n pressing W,S,A,D keys.\n You can restart the level\n with R key\n by pressing Enter you \n can move the item from field\n  to the inventary\n  ")
-    ]
-
-
-secondPage : List (Element Msg)
-secondPage =
-    [ el [ centerX ] (text "the game field comprises \nthe fields, which are either \nempty or with an item.")
-    , el [ centerX ] (text "You can see one additional \nfield which represents \nthe inventory. ")
-    , el [ centerX ] (text "Some items from game fields\n can be stored into inventory\n in order to unleash the field:")
-    , row [ centerX ]
-        [ Element.image [ width (px 50), height (px 50), centerX ]
-            { src = "/Bomb.png"
-            , description = "Bomb Example"
-            }
-        , Element.image [ width (px 50), height (px 50), centerX ]
-            { src = "/Stick.png"
-            , description = "Stick Example"
-            }
-        ]
-    , el [ centerX ] (text "You can place the item\n into the empty field or you can\n activate another item with\n the item from inventory.")
-    , el [ centerX ] (text "When you already have\n an item in inventory you are\n unable to move through \nthe fields with items!\n The exception is a stick,\n which is necessary to \nactivate the dynamit,\n so you can move through it.")
+    , el [ centerX ] (text "W S A D - Move around\n R - Reset level\n Enter - Pick up/Drop/Activate \nitem  ")
     ]
 
 
 thirdPage : List (Element Msg)
 thirdPage =
-    [ el [ centerX ] (text "The main task is to reach\n the following item:")
+    [ el [ centerX ] (text "ARROWS!!!")
+    , row [ centerX ]
+        [ Element.image [ width (px 50), height (px 50), centerX ]
+            { src = "/Stick.png"
+            , description = "Stick Example"
+            }
+        , el [] (text " + ")
+        , Element.image [ width (px 50), height (px 50), centerX ]
+            { src = "/tutorialPicture2.png"
+            , description = "Tutorial Example"
+            }
+        ]
+    , el [ centerX ] (text "Destroys the items\n in left and bottom ")
+    , row [ centerX ]
+        [ Element.image [ width (px 50), height (px 50), centerX ]
+            { src = "/Stick.png"
+            , description = "Stick Example"
+            }
+        , el [] (text " OR ")
+        , Element.image [ width (px 50), height (px 50), centerX ]
+            { src = "/Bomb.png"
+            , description = "Tutorial Example"
+            }
+        , el [] (text " + ")
+        , Element.image [ width (px 50), height (px 50), centerX ]
+            { src = "/tutorialPicture4.png"
+            , description = "Tutorial Example"
+            }
+        ]
+    , el [ centerX ] (text "Displaces Duplicator \nand copies item\n in left and right")
+    , row [ centerX ]
+        [ Element.image [ width (px 50), height (px 50), centerX ]
+            { src = "/Stick.png"
+            , description = "Stick Example"
+            }
+        , Element.image [ width (px 50), height (px 50), centerX ]
+            { src = "/tutorialPicture5.png"
+            , description = "Tutorial Example"
+            }
+        , Element.image [ width (px 50), height (px 50), centerX ]
+            { src = "/Bomb.png"
+            , description = "Tutorial Example"
+            }
+        ]
+    , el [ centerX ] (text "Swaps the items")
+    ]
+
+
+secondPage : List (Element Msg)
+secondPage =
+    [ el [ centerX ] (text "You want to get this:")
     , Element.image [ width (px 50), height (px 50), centerX ]
         { src = "/win.png"
         , description = "Win Example"
         }
-    , el [ centerX ] (text "The winning cup is surrounded\n by the walls \nat the beginning of the level:")
+    , el [ centerX ] (text "It's surrounded by this:")
     , Element.image [ width (px 50), height (px 50), centerX ]
         { src = "/wall.png"
         , description = "nah"
         }
-    , el [ centerX ] (text " You can use dynamite\n which cas destroy every\n item and opens the field\n for you: ")
+    , el [ centerX ] (text "Destroy them with this: ")
+    , row [ centerX ]
+        [ Element.image [ width (px 50), height (px 50), centerX ]
+            { src = "/Stick.png"
+            , description = "Bomb Example"
+            }
+        , el [ centerX ] (text " + ")
+        , Element.image [ width (px 50), height (px 50), centerX ]
+            { src = "/Bomb.png"
+            , description = "Stick Example"
+            }
+        ]
+    , el [ centerX ] (text "Duplicate items with this: ")
     , Element.image [ width (px 50), height (px 50), centerX ]
-        { src = "/bomb.png"
-        , description = "nah"
+        { src = "/copy.png"
+        , description = "Copy Example"
+        }
+    , el [ centerX ] (text "Swap items with this: ")
+    , Element.image [ width (px 50), height (px 50), centerX ]
+        { src = "/swap.png"
+        , description = "Swap Example"
         }
     ]
 
 
 fourthPage : List (Element Msg)
 fourthPage =
-    [ el [ centerX ] (text "Each activation field has\n its own defined direction\n in which it is activated:")
-    , Element.image [ width (px 50), height (px 50), centerX ]
-        { src = "/tutorialPicture2.png"
+    [ el [ centerX ] (text "Attention!!")
+    , Element.image [ width (px 170), height (px 200), centerX ]
+        { src = "/tutorialPicture3.png"
         , description = "Dynamite example"
         }
-    , el [ centerX ] (text "In this case, dynamite destroys\n the bottom and right field\n items when activated.")
-    , el [ centerX ] (text "We activate dynamite with \na stick by placing a stick from \nthe inventory on dynamite.")
-    , el [ centerX ] (text "An explosion of dynamite\n can activate another dynamite!")
+    , el [ centerX ] (text "You have item in inventory!\n Now you can't move.\n BUT")
+    , Element.image [ width (px 170), height (px 200), centerX ]
+        { src = "/tutorialPicture6.png"
+        , description = "Dynamite example"
+        }
+    , el [ centerX ] (text "You can move with match stick\n through bombs.")
     ]
 
 
 fifthPage : List (Element Msg)
 fifthPage =
-    [ el [ centerX ] (text "The game contains \nseveral other activation items:")
-    , row [ centerX ]
-        [ Element.image [ width (px 50), height (px 50), centerX ]
-            { src = "/copy.png"
-            , description = "Copy Example"
-            }
-        , Element.image [ width (px 50), height (px 50), centerX ]
-            { src = "/swap.png"
-            , description = "Swap Example"
-            }
-        ]
-    , el [ centerX ] (text "These are immediately \nactivated with the Enter key\n in the defined directions.")
-    , el [ centerX ] (text "When we activate the first item,\n the item will be replaced with\n the item from the inventory. \nMorover the item from inventory\n will be copied in \nthe defined directions.")
-    , el [ centerX ] (text "The second item can only\n be activated with empty \ninventory. It always has \n2 defined directions, in which\n it looks and swaps the items")
-    ]
-
-
-sixthPage : List (Element Msg)
-sixthPage =
-    [ el [ centerX ] (text "During the game \nwe count the number of moves\n that will be displayed \nafter passing the level.\n Good Luck! ")
+    [ el [ centerX ] (text "You moves are counts.\n I'm sure you will handle this!\n Have fun.")
     , Element.link styles.playButton
         { label = text "PLAY!"
         , url = "Levels"
