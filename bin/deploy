@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+##
+# Given that you have a `heroku` remote added to your local repo, this will:
+# - Get the current branch name
+# - Check to see if the current branch is in a clean state
+# - Force delete the deploy branch if it exists
+# - Checkout a fresh deploy branch
+# - Build a static version of the app
+# - Create an index.php file to allow Heroku to serve the static site
+# - Create a composer.json file to silence the Heroku warnings
+# - Force add the build to git
+# - Force push the build directory to Heroku
+# - Checkout the original branch
+# - Delete the deploy branch
+
+main() {
+  local current_branch=$(git rev-parse --abbrev-ref HEAD)
+  if ! [ -z "$(git status --porcelain)" ]; then
+    echo "The current branch (${current_branch}) isn't clean."
+    echo "Commit or remove these changes and try again."
+    exit 1
+  fi
+  git branch -D deploy >>/dev/null 2>&1
+  git checkout -b deploy
+  elm-app build
+  echo "<?php header( 'Location: /index.html' ) ;  ?>" > build/index.php
+  echo "{}" > build/composer.json
+  git add --force build
+  git commit -m 'Build for deploy'
+  git push heroku $(git subtree split --prefix build deploy):refs/heads/master --force
+  git checkout "${current_branch}"
+  git branch -D deploy
+}
+
+main "$@"
