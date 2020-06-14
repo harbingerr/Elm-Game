@@ -129,11 +129,11 @@ updateNewModel model pressedLevel =
 
 {-
    change direction ->
-     mozne pripady:
-       V Selected nic nie je, moze sa pohybovat volne po mape.
-       V Selected nieco je, nemoze sa s nim pohybovat
-       dalsi pohyb je OOM check
-       dalsi pohyb je do steny
+     possible cases:
+       Selected empty, can move on empty field.
+       Selected not empty, can't move on the field
+       next move is OOM check
+       next move is on field with wall
 -}
 
 
@@ -180,7 +180,7 @@ changeDirection model direction =
 
         newError =
             if oldCurr == newCurrent then
-                "Nemôžeš ísť na toto miesto!"
+                "You cant't move there!"
 
             else
                 "-"
@@ -203,14 +203,14 @@ changeDirection model direction =
 
 {-
    change sleected ->
-     mozne pripady:
-       Field je empty, Selected je empty
-       Field je empty no v Selected uz nieco je
-       Filed ma item, selected je empty -> zmena statusu
-       Field ma item ktory sa po selecte aktivuje, ma prazdny selected
-       Field ma item ktory sa po selecte aktivuje, v selecte nieco je
-       Field ma item, selected ma item, interaguju
-       Field ma Win item, ukoncuje sa hra
+     possible cases:
+       Field is empty, Selected is empty
+       Field is empty, Selected not empty
+       Field has item, selected is empty -> change of  status
+       Field has activate item and selected is empty
+       Field has activate item selected is not empty
+       Field has item, selected has item, they interact
+       Field has Win item, the game ends
 -}
 
 
@@ -224,22 +224,25 @@ changeSelected model =
             model.selectedGrid
 
         newGrids =
-            {- Field ma item ktory sa po selecte aktivuje, ma prazdny selected -}
-            {- Field ma item ktory sa po selecte aktivuje, v selecte nieco je -}
+            {- Field has activate item and selected is empty
+               Field has activate item selected is not empty
+            -}
             if model.currentGrid.item == Swap then
                 swapItemActivated model.grids curr
 
             else if model.currentGrid.item == Duplicator then
                 duplicateItem model.grids curr sel
-                {- field je empty, selected je empty -} {- Field je empty no v Selected uz nieco je -}
+                {- Field is empty, Selected is empty
+                   Field is empty, Selected not empty
+                -}
 
             else if curr.item == Field && sel.item /= Field then
                 List.map (\x -> swapSelectedItemWithField x sel) model.grids
-                {- Filed ma item, selected je empty -> zmena statusu -}
+                {- Field has item, selected is empty -> change of  status -}
 
             else if curr.item /= Field && sel.item == Field then
                 List.map (\x -> swapAndChangeStatus x sel) model.grids
-                {- Field ma item, selected ma item, interaguju -}
+                {- Field has item, selected has item, they interact -}
 
             else if curr.item == Bomb && sel.item == Stick then
                 getDestroyedGrids model.grids curr model.playField
@@ -248,7 +251,7 @@ changeSelected model =
                 model.grids
 
         newCurrent =
-            {- Field ma bombu selected ma stick --vyprazdnime -}
+            {- Field has bombu selected has stick --empty them -}
             if (curr.item == Bomb && sel.item == Stick) || curr.item == Swap then
                 { curr | item = Field, dir = Nothing, status = Current }
 
@@ -260,7 +263,7 @@ changeSelected model =
 
         newSelected : Grid
         newSelected =
-            {- Field ma bombu selected ma stick --vyprazdnime -}
+            {- Field has bombu selected has stick --empty them -}
             if (curr.item == Bomb && sel.item == Stick) || curr.item == Duplicator then
                 { sel | item = Field, dir = Nothing }
 
@@ -268,7 +271,7 @@ changeSelected model =
                 sel
 
             else
-                {- Field je empty no v Selected uz nieco je -} {- Filed ma item, selected je empty -> zmena statusu -} {- Fiel ma item, selected ma item, no len sa swapnu -}
+                {- Field is empty Selected not empty -} {- Filed has item, selected is empty -> change status -} {- Fiel has item, selected has item, just swap -}
                 { xy = model.selectedGrid.xy, status = model.selectedGrid.status, item = model.currentGrid.item, dir = model.currentGrid.dir }
 
         newestGrids =
@@ -296,7 +299,7 @@ changeSelected model =
                   , selectedGrid = newSelected
                   , state = True
                   , playField = model.playField
-                  , errorMsg = "Výhra!"
+                  , errorMsg = "You WIN!"
                   }
                 , Cmd.none
                 )

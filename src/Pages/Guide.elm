@@ -212,7 +212,7 @@ secondPage =
 
 fourthPage : List (Element Msg)
 fourthPage =
-    [ el [ centerX ] (text "Attention!!")
+    [ el [ centerX ] (text "ATTENTION!!")
     , Element.image [ width (px 170), height (px 200), centerX ]
         { src = "/tutorialPicture3.png"
         , description = "Dynamite example"
@@ -228,7 +228,7 @@ fourthPage =
 
 fifthPage : List (Element Msg)
 fifthPage =
-    [ el [ centerX ] (text "You moves are counts.\n I'm sure you will handle this!\n Have fun.")
+    [ el [ centerX ] (text "Your moves are count.\n I'm sure you'll handle this!\n Have fun.")
     , Element.link styles.playButton
         { label = text "PLAY!"
         , url = "Levels"
