@@ -9,3 +9,6 @@ You can play it [here](https://radiant-bastion-69800.herokuapp.com/index.html)
 Or copy the code and play it localy using command
 `elm-app start`
 
+
+ `{ xy = ( 0, 0 ), status = NonSelected, item = Stick, dir = Nothing }`
+
