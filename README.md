@@ -10,5 +10,5 @@ Or copy the code and play it localy using command
 `elm-app start`
 
 
- `{ xy = ( 0, 0 ), status = NonSelected, item = Stick, dir = Nothing }`
+ `{ xy = ( 0, 0 ), status = NonSelected, item = Bomb, dir = Just [Right, Down] }`
 
